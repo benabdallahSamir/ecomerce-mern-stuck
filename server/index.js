@@ -2,7 +2,8 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
-
+import api from "./routes/api.js";
+import cookieParser from "cookie-parser";
 // Load environment variables
 dotenv.config();
 
@@ -12,14 +13,13 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: "*",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
+app.use(cookieParser());
 // Basic route
-app.get("/api", (req, res) => {
-  res.send("Server is running");
-});
+app.use("/api", api);
 
 // Start server
 const PORT = process.env.PORT;
