@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Loader from "./pages/Loadier";
+import Loader from "./pages/Loader";
 import { isLoggedIn } from "./api/user";
 import { Route, Routes } from "react-router-dom";
 import Nav from "./pages/com/Nav";
