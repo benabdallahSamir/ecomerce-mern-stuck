@@ -1,1 +1,54 @@
 @import "tailwindcss";
+
+@theme {
+  --animate-register: register 1s ease-in-out forwards;
+  --animate-register-reverse: register-reverse 1s ease-in-out forwards;
+  --animate-openRegisterAside: openRegisterAside 0.5s ease-in-out forwards
+    reverse;
+}
+
+@keyframes register {
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 55%;
+    border-radius: inherit;
+    border-bottom-left-radius: 60px;
+    border-top-left-radius: 60px;
+    right: 0;
+    left: initial;
+  }
+}
+@keyframes register-reverse {
+  0% {
+    width: 55%;
+    border-radius: inherit;
+    border-bottom-left-radius: 60px;
+    border-top-left-radius: 60px;
+    right: 0;
+    left: initial;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 55%;
+    border-radius: inherit;
+    border-bottom-right-radius: 60px;
+    border-top-right-radius: 60px;
+    right: initial;
+    left: 0;
+  }
+}
+
+@keyframes openRegisterAside {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+}
