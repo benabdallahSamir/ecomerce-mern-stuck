@@ -4,11 +4,18 @@ import { isLoggedIn } from "./api/user";
 import { Route, Routes } from "react-router-dom";
 import Nav from "./pages/com/Nav";
 import Register from "./pages/Register";
+import ThemeToggle, { THEMEKEY } from "./pages/com/Theme";
+import { getItem, setItem } from "./utils/localStorage";
 
 function App() {
   const [loading, setLoading] = useState(true);
   const [isLoggedInState, setIsLoggedInState] = useState(false);
   useEffect(() => {
+    let gettheme = getItem(THEMEKEY);
+    if (gettheme === null) {
+      setItem(THEMEKEY, "light");
+      gettheme = "light";
+    }
     (async function () {
       const res = await isLoggedIn();
       if (res.status === 200) {
@@ -22,7 +29,8 @@ function App() {
     return <Loader />;
   }
   return (
-    <div className="w-full h-screen ">
+    <div className="w-full h-screen relateive dark:bg-gray-900 dark:text-gray-200 bg-gray-100 text-gray-900">
+      <ThemeToggle />
       <Nav />
       <div className="h-[87vh] w-full">
         <Routes>

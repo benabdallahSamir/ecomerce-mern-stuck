@@ -12,11 +12,11 @@ const Nav = ({ isLogged }) => {
   };
 
   return (
-    <nav className="bg-white shadow-lg h-[13vh]">
+    <nav className="shadow-lg h-[13vh]">
       <div className="max-w-6xl mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
-            <Link to="/" className="text-xl font-bold text-gray-800">
+            <Link to="/" className="text-xl font-bold">
               E-Commerce
             </Link>
           </div>
@@ -24,7 +24,7 @@ const Nav = ({ isLogged }) => {
           <div className="md:hidden">
             <button
               onClick={() => toggleMenu()}
-              className="text-gray-600 hover:text-gray-900 focus:outline-none cursor-pointer"
+              className="hover:text-gray-900 focus:outline-none cursor-pointer"
             >
               <FontAwesomeIcon icon={isMenuOpen ? faXmark : faBars} />
             </button>
@@ -61,13 +61,13 @@ const NavigationLinks = ({ isLoggedIn, setIsLoggedIn }) => (
   <>
     <Link
       to="/"
-      className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md"
+      className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
     >
       Home
     </Link>
     <Link
       to="/products"
-      className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md"
+      className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
     >
       Products
     </Link>
@@ -76,13 +76,13 @@ const NavigationLinks = ({ isLoggedIn, setIsLoggedIn }) => (
       <>
         <Link
           to="/cart"
-          className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md"
+          className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
         >
           Cart
         </Link>
         <Link
           to="/profile"
-          className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md"
+          className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
         >
           Profile
         </Link>

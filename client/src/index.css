@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --animate-register: register 1s ease-in-out forwards;
   --animate-register-reverse: register-reverse 1s ease-in-out forwards;
   --animate-openRegisterAside: openRegisterAside 0.5s ease-in-out forwards
-    reverse;
+  reverse;
 }
 
 @keyframes register {
