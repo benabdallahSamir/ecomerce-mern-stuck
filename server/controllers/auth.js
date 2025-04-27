@@ -6,9 +6,9 @@ import User from "../models/User.js";
 export const isLoggedIn = async (req, res) => {
   try {
     const token = req.cookies.token;
-    const { userId } = verifyToken(token);
-    if (!userId) return res.status(401).json({ message: "Unauthorized" });
-    const user = await getUser({ id: userId });
+    const verify = verifyToken(token);
+    if (!verify) return res.status(401).json({ message: "Unauthorized" });
+    const user = await getUser({ id: verify.userId });
     if (!user) return res.status(401).json({ message: "Unauthorized" });
     res.status(200).json({ user: userFormat(user) });
   } catch (error) {
@@ -72,6 +72,10 @@ export const signup = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  res.cookie("token", null);
+  res.cookie("token", "null", {
+    httpOnly: true,
+    secure: "production",
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+  });
   res.status(204).send();
 };
