@@ -6,10 +6,14 @@ import Nav from "./pages/com/Nav";
 import Register from "./pages/Register";
 import ThemeToggle, { THEMEKEY } from "./pages/com/Theme";
 import { getItem, setItem } from "./utils/localStorage";
+import { useDispatch, useSelector } from "react-redux";
+import { setLogedInState } from "./rtk/isLogedIn";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const [isLoggedInState, setIsLoggedInState] = useState(false);
+  const dispatche = useDispatch();
+  const { isLoggedIn: isLoggedInState } = useSelector((s) => s);
   useEffect(() => {
     let gettheme = getItem(THEMEKEY);
     if (gettheme === null) {
@@ -17,9 +21,9 @@ function App() {
       gettheme = "light";
     }
     (async function () {
-      const res = await isLoggedIn();
-      if (res.status === 200) {
-        setIsLoggedInState(res.data.isLoggedIn);
+      const { data, status } = await isLoggedIn();
+      if (status === 200) {
+        dispatche(setLogedInState(true));
       }
       setLoading(false);
     })();
@@ -36,13 +40,17 @@ function App() {
         <Routes>
           <Route path="/" element={<h1>Home</h1>} />
           <Route path="/login" element={<h1>Login</h1>} />
-          <Route path="/register" element={<Register />} />
+          {!isLoggedInState && (
+            <Route path="/register" element={<Register />} />
+          )}
           <Route path="/dashboard" element={<h1>Dashboard</h1>} />
-          <Route path="/profile" element={<h1>Profile</h1>} />
           <Route path="/settings" element={<h1>Settings</h1>} />
           <Route path="*" element={<h1>404 Not Found</h1>} />
-          <Route path="/:userId" element={<h1>User Profile</h1>} />
-          <Route path="/:userId/edit" element={<h1>Edit Profile</h1>} />
+          <Route path="/:userId" element={<UserProfile />} />
+          <Route
+            path="not-found"
+            element={<h1>page not found not created yet</h1>}
+          />
         </Routes>
       </div>
     </div>

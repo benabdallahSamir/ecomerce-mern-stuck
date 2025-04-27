@@ -2,14 +2,22 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../api/auth";
+import { setLogedInState } from "../../rtk/isLogedIn";
 
-const Nav = ({ isLogged }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(isLogged);
+const Nav = () => {
+  const { isLoggedIn: isLogged } = useSelector((s) => s);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const dispatche = useDispatch();
   const toggleMenu = () => {
     setIsMenuOpen((curr) => !curr);
   };
+
+  async function handleLogout() {
+    await logout();
+    dispatche(setLogedInState(false));
+  }
 
   return (
     <nav className="shadow-lg h-[13vh]">
@@ -33,8 +41,8 @@ const Nav = ({ isLogged }) => {
           {/* Desktop menu */}
           <div className="hidden md:flex space-x-4">
             <NavigationLinks
-              isLoggedIn={isLoggedIn}
-              setIsLoggedIn={setIsLoggedIn}
+              isLoggedIn={isLogged}
+              handleLogout={handleLogout}
             />
           </div>
         </div>
@@ -46,8 +54,8 @@ const Nav = ({ isLogged }) => {
         >
           <div className="flex flex-col space-y-2">
             <NavigationLinks
-              isLoggedIn={isLoggedIn}
-              setIsLoggedIn={setIsLoggedIn}
+              isLoggedIn={isLogged}
+              handleLogout={handleLogout}
             />
           </div>
         </div>
@@ -57,7 +65,7 @@ const Nav = ({ isLogged }) => {
 };
 
 // Separated navigation links component for reusability
-const NavigationLinks = ({ isLoggedIn, setIsLoggedIn }) => (
+const NavigationLinks = ({ isLoggedIn, handleLogout }) => (
   <>
     <Link
       to="/"
@@ -88,7 +96,7 @@ const NavigationLinks = ({ isLoggedIn, setIsLoggedIn }) => (
         </Link>
         <button
           className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
-          onClick={() => setIsLoggedIn(false)}
+          onClick={() => handleLogout()}
         >
           Logout
         </button>
