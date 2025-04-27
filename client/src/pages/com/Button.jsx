@@ -19,7 +19,10 @@ function Button({
 
   if (variant === "default") {
     return (
-      <div className={`px-2 py-1 rounded-md border border-black ${className}`}>
+      <div
+        className={`px-2 py-1 rounded-md border border-black duration-300 ${className}`}
+        onClick={onClick}
+      >
         {text}
       </div>
     );

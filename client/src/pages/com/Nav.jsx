@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../api/auth";
 import { setLogedInState } from "../../rtk/isLogedIn";
+import { initUserState } from "../../rtk/user";
 
 const Nav = () => {
   const { isLoggedIn: isLogged } = useSelector((s) => s);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
   const dispatche = useDispatch();
   const toggleMenu = () => {
     setIsMenuOpen((curr) => !curr);
@@ -17,6 +19,8 @@ const Nav = () => {
   async function handleLogout() {
     await logout();
     dispatche(setLogedInState(false));
+    dispatche(initUserState());
+    navigate("/");
   }
 
   return (
@@ -91,7 +95,7 @@ const NavigationLinks = ({ handleLogout }) => {
             Cart
           </Link>
           <Link
-            to={`/${user.id}`}
+            to={`user/${user.id}`}
             className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
           >
             Profile
