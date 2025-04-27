@@ -8,15 +8,15 @@ export const isLoggedIn = async (req, res) => {
     const token = req.cookies.token;
     const { userId } = verifyToken(token);
     if (!userId) return res.status(401).json({ message: "Unauthorized" });
-    req.userId = userId;
     const user = await getUser({ id: userId });
     if (!user) return res.status(401).json({ message: "Unauthorized" });
-    res.status(200).json({ user: user.userFormated });
+    res.status(200).json({ user: userFormat(user) });
   } catch (error) {
+    console.log("error in is logged in functino in auth controller");
+    console.log(error);
     res.status(401).json({ message: "error : Invalid token" });
   }
 };
-
 export const login = async (req, res) => {
   const { username, password } = req.body;
   if (!username || !password)
@@ -69,4 +69,9 @@ export const signup = async (req, res) => {
     console.log(error);
     return res.status(500).send({ message: "Internal server error" });
   }
+};
+
+export const logout = async (req, res) => {
+  res.cookie("token", null);
+  res.status(204).send();
 };
