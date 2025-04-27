@@ -45,3 +45,20 @@ export async function signup(username, password) {
     };
   }
 }
+export async function logout() {
+  try {
+    await axios.get(`${apiUrl}/auth/logout`, urlParams);
+  } catch (error) {
+    console.log(error);
+    if (error.response) {
+      return {
+        status: error.response.status,
+        data: error.response.data,
+      };
+    }
+    return {
+      status: 10,
+      message: "Server Error",
+    };
+  }
+}

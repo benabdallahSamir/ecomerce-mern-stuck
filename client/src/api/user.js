@@ -22,3 +22,24 @@ export async function isLoggedIn() {
     };
   }
 }
+export async function getUser(userId) {
+  try {
+    const { status, data } = await axios.get(
+      `${apiUrl}/user/${userId}`,
+      urlParams
+    );
+    return { status, data };
+  } catch (error) {
+    console.log(error);
+    if (error.response) {
+      return {
+        status: error.response.status,
+        message: error.response.data.message,
+      };
+    }
+    return {
+      status: 10,
+      message: "Server Error",
+    };
+  }
+}
