@@ -11,8 +11,10 @@ import Button from "./com/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { login, signup } from "../api/auth";
 import { errorAlert, successAlert } from "../utils/alert";
-
-function Login({ className, goto }) {
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLogedInState } from "../rtk/isLogedIn";
+function Login({ className, goto, handleSuccessOpp }) {
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -28,10 +30,8 @@ function Login({ className, goto }) {
       return;
     }
     const { data: data2, status } = await login(username, password);
-    if (status === 200) {
-      successAlert("Login successful");
-      console.log(data2);
-    } else {
+    if (status === 200) handleSuccessOpp();
+    else {
       console.log(`error : ${data2.message}, with status code ${status}`);
       errorAlert(data2.message);
     }
@@ -96,7 +96,7 @@ function Login({ className, goto }) {
     </motion.div>
   );
 }
-function Signup({ className, goto }) {
+function Signup({ className, goto, handleSuccessOpp }) {
   const [data, setData] = useState({
     username: "",
     password: "",
@@ -117,10 +117,8 @@ function Signup({ className, goto }) {
       return;
     }
     const { data: data2, status } = await signup(username, password);
-    if (status === 200) {
-      successAlert("created user successfully");
-      console.log(data2);
-    } else {
+    if (status === 200) handleSuccessOpp();
+    else {
       console.log(`error : ${data2.message}, with status code ${status}`);
       errorAlert(data2.message);
     }
@@ -233,6 +231,13 @@ function SignupAside({ handleClick }) {
 function Register() {
   const [pageState, setPageState] = useState("login");
   const aside = useRef();
+  const navigate = useNavigate();
+  const dispatche = useDispatch();
+  function handleSuccessOpp() {
+    navigate("/");
+    dispatche(setLogedInState(true));
+  }
+
   function handleClick() {
     if (pageState === "login") {
       setPageState("signup");
@@ -264,9 +269,17 @@ function Register() {
         </aside>
         <div className="w-full h-full rounded-2xl flex flex-col items-center">
           {pageState === "login" ? (
-            <Login className={"ml-auto max-[550px]:m-0"} goto={handleClick} />
+            <Login
+              className={"ml-auto max-[550px]:m-0"}
+              goto={handleClick}
+              handleSuccessOpp={handleSuccessOpp}
+            />
           ) : (
-            <Signup className={"mr-auto max-[550px]:m-0"} goto={handleClick} />
+            <Signup
+              className={"mr-auto max-[550px]:m-0"}
+              goto={handleClick}
+              handleSuccessOpp={handleSuccessOpp}
+            />
           )}
         </div>
       </div>
