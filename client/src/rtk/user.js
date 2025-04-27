@@ -8,8 +8,12 @@ const user = createSlice({
       state = Boolean(payload) ? payload : {};
       return state;
     },
+    initUserState: (state, { payload }) => {
+      state = Boolean(payload) ? payload : {};
+      return state;
+    },
   },
 });
 
 export default user.reducer;
-export const { setUserState } = user.actions;
+export const { setUserState,initUserState } = user.actions;

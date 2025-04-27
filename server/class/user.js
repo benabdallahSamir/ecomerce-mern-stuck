@@ -17,7 +17,6 @@ export async function getUser({ username, emailId, id }) {
 }
 export function userFormat(user) {
   if (!user) return null;
-  user._doc.verified = Boolean(user.emailId);
   user._doc.id = user._id.toString();
   delete user._doc.password;
   delete user._doc._id;
