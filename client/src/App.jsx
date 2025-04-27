@@ -8,6 +8,7 @@ import ThemeToggle, { THEMEKEY } from "./pages/com/Theme";
 import { getItem, setItem } from "./utils/localStorage";
 import { useDispatch, useSelector } from "react-redux";
 import { setLogedInState } from "./rtk/isLogedIn";
+import { setUserState } from "./rtk/user";
 import UserProfile from "./pages/UserProfile";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       const { data, status } = await isLoggedIn();
       if (status === 200) {
         dispatche(setLogedInState(true));
+        dispatche(setUserState(data.user));
       }
       setLoading(false);
     })();

@@ -65,51 +65,54 @@ const Nav = () => {
 };
 
 // Separated navigation links component for reusability
-const NavigationLinks = ({ isLoggedIn, handleLogout }) => (
-  <>
-    <Link
-      to="/"
-      className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
-    >
-      Home
-    </Link>
-    <Link
-      to="/products"
-      className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
-    >
-      Products
-    </Link>
-
-    {isLoggedIn ? (
-      <>
-        <Link
-          to="/cart"
-          className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
-        >
-          Cart
-        </Link>
-        <Link
-          to="/profile"
-          className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
-        >
-          Profile
-        </Link>
-        <button
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
-          onClick={() => handleLogout()}
-        >
-          Logout
-        </button>
-      </>
-    ) : (
+const NavigationLinks = ({ handleLogout }) => {
+  const { isLoggedIn, user } = useSelector((s) => s);
+  return (
+    <>
       <Link
-        to="/register"
-        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+        to="/"
+        className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
       >
-        Register
+        Home
       </Link>
-    )}
-  </>
-);
+      <Link
+        to="/products"
+        className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
+      >
+        Products
+      </Link>
+
+      {isLoggedIn ? (
+        <>
+          <Link
+            to="/cart"
+            className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
+          >
+            Cart
+          </Link>
+          <Link
+            to={`/${user.id}`}
+            className="hover:text-gray-900 dark:hover:text-gray-300 px-3 py-2 rounded-md"
+          >
+            Profile
+          </Link>
+          <button
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
+            onClick={() => handleLogout()}
+          >
+            Logout
+          </button>
+        </>
+      ) : (
+        <Link
+          to="/register"
+          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+        >
+          Register
+        </Link>
+      )}
+    </>
+  );
+};
 
 export default Nav;
