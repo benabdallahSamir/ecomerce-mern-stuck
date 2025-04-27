@@ -10,6 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setLogedInState } from "./rtk/isLogedIn";
 import { setUserState } from "./rtk/user";
 import UserProfile from "./pages/UserProfile";
+import Edit from "./pages/Edit";
+import AccordationPage from "./pages/com/AccordationPage";
+import PasswordPage from "./pages/com/PasswordPage";
+import InformationPage from "./pages/com/InformationPage";
+import ChangeImagePage from "./pages/com/ChangeImagePage";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -29,7 +34,7 @@ function App() {
       }
       setLoading(false);
     })();
-  }, []);
+  }, [isLoggedInState]);
 
   if (loading) {
     return <Loader />;
@@ -42,17 +47,24 @@ function App() {
         <Routes>
           <Route path="/" element={<h1>Home</h1>} />
           <Route path="/login" element={<h1>Login</h1>} />
+          <Route path="/products" element={<h1>product</h1>} />
+          <Route path="/edit" element={<Edit />}>
+            <Route index element={<InformationPage />} />
+            <Route path="password" element={<PasswordPage />} />
+            <Route path="accordation" element={<AccordationPage />} />
+            <Route path="picture" element={<ChangeImagePage />} />
+          </Route>
           {!isLoggedInState && (
             <Route path="/register" element={<Register />} />
           )}
           <Route path="/dashboard" element={<h1>Dashboard</h1>} />
           <Route path="/settings" element={<h1>Settings</h1>} />
-          <Route path="*" element={<h1>404 Not Found</h1>} />
-          <Route path="/:userId" element={<UserProfile />} />
+          <Route path="user/:userId" element={<UserProfile />} />
           <Route
             path="not-found"
             element={<h1>page not found not created yet</h1>}
           />
+          <Route path="*" element={<h1>404 Not Found</h1>} />
         </Routes>
       </div>
     </div>
